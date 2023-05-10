@@ -1,0 +1,19 @@
+package com.app.demo.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.app.demo.model.Student;
+
+public interface StudentRepo extends JpaRepository<Student, Integer>{
+	@Query(value="SELECT * FROM Student where s_marks>?",nativeQuery=true)
+	List<Student> findByMarks(int s_marks);
+
+	@Query(value="SELECT * FROM Student where s_name=?",nativeQuery=true)
+	Student findByName(String s_name);
+	
+	List<Student> findAll();
+
+}

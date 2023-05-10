@@ -1,0 +1,46 @@
+package com.app.demo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RestController;
+
+import com.app.demo.model.Student;
+import com.app.demo.repository.StudentRepo;
+import com.app.demo.service.LoginService;
+import com.app.demo.service.StudentService;
+
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/student")
+@Controller
+public class StudentController {
+	
+	@Autowired
+	StudentService s_service;
+	
+	@Autowired
+	LoginService loginservice;
+	@Autowired
+	StudentRepo s_repo;
+	
+	@GetMapping("/studentdetails/{s_name}")
+	public ResponseEntity<List<Student>> studentDetail(@PathVariable("s_name") String sname) {				//CustomerId
+
+		return s_service.getAllStudents(sname);
+	
+	}
+
+	@PostMapping("/add")
+	public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+	    Student savedStudent = s_repo.save(student);
+	    return ResponseEntity.ok(savedStudent);
+	}
+}
